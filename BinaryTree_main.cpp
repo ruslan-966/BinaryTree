@@ -4,6 +4,7 @@
 int main()
 {
     setlocale(LC_ALL, "");
+    int arr[100];
 
     BinaryTree btree;
 
@@ -21,7 +22,7 @@ int main()
 
     btree.print();
 
-    btree.delInt(20);
+    btree.symmetricWalk(arr);
 
     btree.print();
 

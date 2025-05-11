@@ -24,6 +24,8 @@ public:
     void delInt(int deldata);
     void print();
     void print_obj(Node* obj);
+    // симметричный обход
+    void symmetricWalk(int output_array[]);
     
 private:
     void setNewChild(Node* child, Node* newChild = nullptr);

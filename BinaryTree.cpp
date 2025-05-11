@@ -189,4 +189,80 @@ void BinaryTree::print_obj(Node* obj)
     print_obj(obj->rightChild);
 }
 
+// симметричный обход
+void BinaryTree::symmetricWalk(int output_array[]) {
+    // положите в output_array[] элементы дерева в порядке их обхода
+    // в итоге должен получиться отсортированный массив по возрастанию
+    // Ваш код должен быть здесь
+    if (root == nullptr) return;
+    Node* stack[100];       //создали стек
+    for (int i = 0; i < 100; ++i)
+        stack[i] = nullptr;
+    
+    stack[0] = root;
+    int stCount = 1;        // счетчик содержимого стека
+    int outputCount = 0;    // количество выведенных чисел
+    while (stCount != 0)
+    {
+        Node* current = stack[stCount - 1];
+        
+        if (!current->leftChild && !current->rightChild)    // это лист, печатаем, удаляем из стека, выходим
+        {
+            output_array[outputCount++] = current->data;
+            stack[--stCount] = nullptr;
+            continue;
+        }
+        else if (current->leftChild && !current->rightChild)      // есть левый ребенок. Два варианта, если ребенок не выведен, его в стек или печть и удаление из стека
+        {
+            bool isChildWrite = false;
+            for (int i = 0; i < outputCount; ++i)
+                if (current->leftChild->data == output_array[i])
+                {
+                    isChildWrite = true;
+                    break;
+                }
+            if (isChildWrite)
+            {
+                output_array[outputCount++] = current->data;
+                stack[--stCount] = nullptr;
+                continue;
+            }
+            else
+            {
+                stack[stCount++] = current->leftChild;
+                continue;
+            }
+        }
+        else if (!current->leftChild && current->rightChild)     // есть правый ребенок. Печать данных узла, замена узла в стеке на ребенка
+        {
+            output_array[outputCount++] = current->data;
+            stack[stCount - 1] = current->rightChild;
+        }
+        else                // есть два ребенка. если не печатали левого, то его в стек. Если левый напчечатан, то печать узла и замена в стеке на правого ребенка
+        {
+            bool isChildWrite = false;
+            for (int i = 0; i < outputCount; ++i)
+                if (current->leftChild->data == output_array[i])
+                {
+                    isChildWrite = true;
+                    break;
+                }
+            if (!isChildWrite)
+            {
+                stack[stCount++] = current->leftChild;
+                continue;
+            }
+            else
+            {
+                output_array[outputCount++] = current->data;
+                stack[stCount - 1] = current->rightChild;
+                continue;
+            }
+        }
+    }
+    for (int i = 0; i < outputCount; ++i)
+        std::cout << output_array[i] << " ";
+    std::cout << std::endl;
+}
+
 
